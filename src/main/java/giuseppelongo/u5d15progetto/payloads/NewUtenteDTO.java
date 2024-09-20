@@ -11,5 +11,6 @@ public record NewUtenteDTO(
         @NotEmpty(message = "La password è obbligatoria")
         @Size(min = 4, message = "La password deve avere almeno 4 caratteri")
         String password
+
 ) {
 }

@@ -1,6 +1,7 @@
 package giuseppelongo.u5d15progetto.controllers;
 
 import giuseppelongo.u5d15progetto.entities.Utente;
+import giuseppelongo.u5d15progetto.payloads.NewUtenteDTO;
 import giuseppelongo.u5d15progetto.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/utenti")
+@RequestMapping("/utenti")
 public class UtenteController {
     @Autowired
     private UtenteService utenteService;
 
     @PostMapping("/registrati")
-    public ResponseEntity<Utente> registrati(@RequestBody Utente utente) {
-        Utente nuovoUtente = utenteService.registrati(utente);
-        return new ResponseEntity<>(nuovoUtente, HttpStatus.CREATED);
+    public ResponseEntity<UUID> registrati(@RequestBody NewUtenteDTO dto) {
+        Utente nuovoUtente = utenteService.save(dto);
+        return new ResponseEntity<>(nuovoUtente.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -27,7 +28,6 @@ public class UtenteController {
                 .map(utente -> new ResponseEntity<>(utente, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminaUtente(@PathVariable UUID id) {
