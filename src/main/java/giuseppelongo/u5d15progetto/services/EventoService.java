@@ -22,7 +22,7 @@ public class EventoService {
     @Autowired
     private UtenteService utenteService;
 
-    // Metodo per creare un evento
+
     public NewEventoRespDTO creaEvento(NewEventoDTO dto) {
         Utente organizzatore = utenteService.findById(UUID.fromString(dto.utenteId()))
                 .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
@@ -62,6 +62,14 @@ public class EventoService {
         );
     }
 
+    public Evento trovaEventoEntityPerId(UUID id) {
+        return eventoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Evento con Id " + id + " non trovato"));
+    }
+
+    public Evento salvaEvento(Evento evento) {
+        return eventoRepository.save(evento);
+    }
 
     public List<NewEventoRespDTO> trovaTuttiGliEventi() {
         return eventoRepository.findAll().stream()
