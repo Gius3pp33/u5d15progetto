@@ -1,4 +1,5 @@
 package giuseppelongo.u5d15progetto.entities;
 
-public class Organizzatore {
+public enum Role {
+    UTENTE, ORGANIZZATORE
 }
